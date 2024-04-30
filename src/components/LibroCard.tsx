@@ -1,19 +1,16 @@
 import { type Book } from '../types'
 
-export default function LibroCard({ book }: { book: Book }) {
-  const { title, pages, genre, cover, synopsis, year, ISBN, author } = book
-
+export default function LibroCard({ book }) {
+  const { title, pages, genre, cover, year } = book.book as Book
   return (
-    <div className='libro-card'>
+    <article className='w-64 hover:bg-gray-900 p-4 rounded-lg'>
       <img src={cover} alt={title} />
-      <h3>{title}</h3>
-      {author.name && <p>{author.name}</p>}
-      <p>{year}</p>
-      <p>{pages}</p>
-      <p>{genre}</p>
-      <p>{ISBN}</p>
-      <p>{synopsis}</p>
-      {author.otherBooks && <p>{author.otherBooks.join(', ')}</p>}
-    </div>
+      <samp>
+        <h3>{title}</h3>
+        <p>Año: {year}</p>
+        <p>Paginas :{pages}</p>
+        <p>Genero: {genre}</p>
+      </samp>
+    </article>
   )
 }

@@ -15,13 +15,12 @@ export default function ListarLibros() {
         console.error('Error:', error)
       })
   }, [])
-
   return (
-    <section className='flex w-full mx-20 my-16'>
-      <h2 className='text-2xl font-medium'>Listado de libros</h2>
-      <div className='grid grid-cols-3 gap-4'>
-        {books.map((book: Book, index) => (
-          <LibroCard key={index} book={book} />
+    <section className='flex w-full mx-20 my-16 flex-col'>
+      <h2 className='text-3xl font-medium mb-8'>Listado de libros</h2>
+      <div className='flex flex-wrap gap-2 overflow-x-hidden'>
+        {books.map((book) => (
+          <LibroCard key={book.ISBN} book={book} />
         ))}
       </div>
     </section>
