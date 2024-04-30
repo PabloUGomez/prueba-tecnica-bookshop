@@ -1,7 +1,16 @@
+import Header from './components/Header'
+import ListarLibros from './components/ListarLibros'
+import Footer from './components/Footer'
 
-function App () {
+function App() {
   return (
-    <h1>Prueba tecnica</h1>
+    <>
+      <Header />
+      <main>
+        <ListarLibros />
+      </main>
+      <Footer />
+    </>
   )
 }
 
