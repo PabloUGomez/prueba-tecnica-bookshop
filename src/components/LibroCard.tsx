@@ -1,11 +1,27 @@
-import { StarEmpty } from '../Icons/Star'
+import { StarEmpty, StarFull } from '../Icons/Star'
 import { type Book } from '../types'
+import { useBooks } from '../store/useBooks'
 
-export default function LibroCard({ book }) {
-  const { title, pages, genre, cover, year, ISBN } = book.book as Book
+export default function LibroCard({ book }: { book: Book }) {
+  const { title, pages, genre, cover, year, ISBN } = book as Book
+  const { setFavoriteBook, favoriteBooks, books, unSetFavoriteBook } = useBooks((state) => {
+    return {
+      setFavoriteBook: state.setFavoriteBook,
+      favoriteBooks: state.favoriteBooks,
+      books: state.books,
+      unSetFavoriteBook: state.unSetFavoriteBook
+    }
+  })
 
-  const handleClick = (ISBN : number) => {
-    
+  const handleClick = (ISBN: string) => {
+    const book = books.find((book: Book) => book.ISBN === ISBN)
+    if (book) {
+      if (favoriteBooks.some((favoriteBook) => favoriteBook.ISBN === book.ISBN)){
+        unSetFavoriteBook(book)
+      } else {
+        setFavoriteBook(book)
+      }
+    }
   }
 
   return (
@@ -14,7 +30,7 @@ export default function LibroCard({ book }) {
         className='opacity-0 group-hover:opacity-100 absolute bg-gray-900 p-2 m-1'
         onClick={() => handleClick(ISBN)}
       >
-        <StarEmpty />
+        {favoriteBooks.includes(book) ? <StarFull /> : <StarEmpty />}
       </button>
       <img src={cover} alt={title} />
 
