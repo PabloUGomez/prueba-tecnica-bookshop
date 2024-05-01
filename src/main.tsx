@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
+import Favorites from './components/Favorites.tsx'
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/favorites',
+    element: <Favorites />,
   },
 ])
 ReactDOM.createRoot(document.getElementById('root')!).render(
