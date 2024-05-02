@@ -1,12 +1,17 @@
 import { useBooks } from '../store/useBooks'
 
 export default function Filtros() {
-  const { books } = useBooks((state) => {
-    return { books: state.books }
+  const { books, setGenre } = useBooks((state) => {
+    return { books: state.books, setGenre: state.setGenre }
   })
   const bookGenresNoRepeat = books.map((book) => book.genre)
   const bookGenres = [...new Set(bookGenresNoRepeat)]
-  console.log(bookGenres)
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const value = e.target as HTMLAnchorElement
+    if (value.innerHTML === 'All') return setGenre(undefined)
+    setGenre(value.innerHTML)
+  }
 
   return (
     <nav className='w-full flex gap-x-6 mb-6 items-center'>
@@ -18,9 +23,12 @@ export default function Filtros() {
           tabIndex={0}
           className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
         >
+          <li>
+            <a onClick={(e) => handleClick(e)}>All</a>
+          </li>
           {bookGenres.map((genre, index) => (
             <li key={index}>
-              <a>{genre}</a>
+              <a onClick={(e) => handleClick(e)}>{genre}</a>
             </li>
           ))}
         </ul>

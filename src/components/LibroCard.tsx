@@ -27,7 +27,7 @@ export default function LibroCard({ book }: { book: Book }) {
   return (
     <article className='w-64 hover:bg-gray-900 p-4 rounded-lg group'>
       <button
-        className='opacity-0 group-hover:opacity-100 absolute bg-gray-900 p-2 m-1'
+        className={`opacity-0 group-hover:opacity-100 ${favoriteBooks.includes(book) && 'opacity-100'} absolute bg-gray-900 p-2 m-1 rounded-md`}
         onClick={() => handleClick(ISBN)}
       >
         {favoriteBooks.includes(book) ? <StarFull /> : <StarEmpty />}
