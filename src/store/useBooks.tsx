@@ -9,10 +9,10 @@ interface BooksState {
   setBooks: (books: Array<Book>) => void
   setFavoriteBook: (favoriteBook: Book) => void
   unSetFavoriteBook: (favoriteBook: Book) => void
-  setGenre: (genre: string) => void
-  setPages: (pages: number) => void
-  getBooksByGenre: (genge: string) => Array<Book>
-  getBooksByPages: (pages: number) => Array<Book>
+  setGenre: (genre: string | undefined) => void
+  setPages: (pages: number | undefined) => void
+  getBooksFiltered: (genge: string | undefined, pages: number | undefined) => Array<Book>
+  getMaxPages: () => number
 }
 
 export const useBooks = create<BooksState>((set, get) => ({
@@ -35,13 +35,23 @@ export const useBooks = create<BooksState>((set, get) => ({
       return { favoriteBooks }
     })
   },
-  setGenre: (genre: string) => set({ genre }),
-  setPages: (pages: number) => set({ pages }),
-  getBooksByGenre: (genge: string | undefined) => {
-    if (genge === undefined) return get().books
-    return get().books.filter((book) => book.genre === genge)
+  setGenre: (genre: string | undefined) => set({ genre }),
+  setPages: (pages: number | undefined) => set({ pages }),
+  getBooksFiltered: (genre: string | undefined, pages: number | undefined) => {
+    if (genre != undefined && pages != undefined)
+      return get()
+        .books.filter((book) => book.genre === genre)
+        .filter((book) => book.pages <= pages)
+    if (genre != undefined && pages === undefined)
+      return get().books.filter((book) => book.genre === genre)
+    if (genre === undefined && pages != undefined)
+        return get().books.filter((book) => book.pages <= pages)
+    return get().books
   },
-  getBooksByPages: (pages: number) => {
-    return get().books.filter((book) => book.pages <= pages)
-  },
+  getMaxPages: () => {
+    // eslint-disable-next-line prefer-spread
+    const max =  Math.max.apply(Math, get().books.map((book) => book.pages))
+    if (max > 0 ) return max
+    return 1000
+  }
 }))

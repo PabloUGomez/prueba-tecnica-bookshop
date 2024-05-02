@@ -1,8 +1,15 @@
+import { ChangeEvent } from 'react'
 import { useBooks } from '../store/useBooks'
 
 export default function Filtros() {
-  const { books, setGenre } = useBooks((state) => {
-    return { books: state.books, setGenre: state.setGenre }
+  const { books, setGenre, pages, setPages, getMaxPages } = useBooks((state) => {
+    return {
+      books: state.books,
+      setGenre: state.setGenre,
+      pages: state.pages,
+      setPages: state.setPages,
+      getMaxPages: state.getMaxPages,
+    }
   })
   const bookGenresNoRepeat = books.map((book) => book.genre)
   const bookGenres = [...new Set(bookGenresNoRepeat)]
@@ -11,6 +18,11 @@ export default function Filtros() {
     const value = e.target as HTMLAnchorElement
     if (value.innerHTML === 'All') return setGenre(undefined)
     setGenre(value.innerHTML)
+  }
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setPages(Number(value))
   }
 
   return (
@@ -33,7 +45,21 @@ export default function Filtros() {
           ))}
         </ul>
       </div>
-      <input type='range' min={0} max='100' value='40' className='range w-64' />
+      <span className='flex items-center justify-center gap-x-2'>
+        <span>0</span>
+        <div className='flex flex-col w-64 justify-center items-center'>
+          <span className='absolute top-48'>{pages}</span>
+          <input
+            type='range'
+            min='0'
+            max={getMaxPages()}
+            defaultValue={getMaxPages()}
+            onChange={(e) => handleChange(e)}
+            className='range'
+          />
+        </div>
+        <samp>1000</samp>
+      </span>
     </nav>
   )
 }

@@ -5,15 +5,14 @@ import { Book } from '../types'
 import { useBooks } from '../store/useBooks'
 
 export default function ListarLibros() {
-  const {books, setBooks, genre, pages, getBooksByGenre, getBooksByPages } = useBooks(
+  const {books, setBooks, genre, pages, getBooksFiltered } = useBooks(
     (state) => {
       return {
         books: state.books,
         setBooks: state.setBooks,
         genre: state.genre,
-        pages: state.genre,
-        getBooksByGenre: state.getBooksByGenre,
-        getBooksByPages: state.getBooksByPages,
+        pages: state.pages,
+        getBooksFiltered: state.getBooksFiltered,
       }
     }
   )
@@ -31,8 +30,8 @@ export default function ListarLibros() {
   }, [setBooks])
 
   useEffect(() => {
-    setListedBooks(getBooksByGenre(genre))
-  }, [genre, getBooksByGenre])
+    setListedBooks(getBooksFiltered(genre, pages))
+  }, [genre, getBooksFiltered, pages])
 
 
 
