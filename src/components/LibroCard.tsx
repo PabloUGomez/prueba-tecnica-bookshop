@@ -1,6 +1,7 @@
 import { StarEmpty, StarFull } from '../Icons/Star'
 import { type Book } from '../types'
 import { useBooks } from '../store/useBooks'
+import { Link } from 'react-router-dom'
 
 export default function LibroCard({ book }: { book: Book }) {
   const { title, pages, genre, cover, year, ISBN } = book as Book
@@ -25,7 +26,7 @@ export default function LibroCard({ book }: { book: Book }) {
   }
 
   return (
-    <article className='w-64 hover:bg-gray-900 p-4 rounded-lg group'>
+    <Link to={`/libro?ISBN=${ISBN}`} className='w-64 hover:bg-gray-900 p-4 rounded-lg group'>
       <button
         className={`opacity-0 group-hover:opacity-100 ${favoriteBooks.includes(book) && 'opacity-100'} absolute bg-gray-900 p-2 m-1 rounded-md`}
         onClick={() => handleClick(ISBN)}
@@ -40,6 +41,6 @@ export default function LibroCard({ book }: { book: Book }) {
         <p>Paginas :{pages}</p>
         <p>Genero: {genre}</p>
       </samp>
-    </article>
+    </Link>
   )
 }

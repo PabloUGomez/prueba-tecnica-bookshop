@@ -18,6 +18,7 @@ interface BooksState {
     pages: number | undefined
   ) => Array<Book>
   getMaxPages: () => number
+  getBookByISBN: (ISBN: string) => Book | undefined
 }
 
 export const useBooks = create<BooksState>()(
@@ -66,6 +67,10 @@ export const useBooks = create<BooksState>()(
         )
         if (max > 0) return max
         return 1000
+      },
+      getBookByISBN: (ISBN: string) => {
+        const book = get().books.find((book : Book) => book.ISBN === ISBN)
+        return book
       },
     }),
     {
