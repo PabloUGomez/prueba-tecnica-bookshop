@@ -14,12 +14,12 @@ export default function Libro() {
     const book = getBookByISBN(ISBN)
     if (book) {
       return (
-        <div>
-          <img src={book.cover} alt={book.title} />
-          <h1>{book.title}</h1>
-          <p>{book.year}</p>
-          <p>{book.pages}</p>
-          <p>{book.genre}</p>
+        <div className="flex flex-col items-center">
+          <img src={book.cover} alt={book.title} className="w-64 h-64" />
+          <h1 className="text-2xl font-bold mt-4">{book.title}</h1>
+          <p className="text-lg mt-2">{book.year}</p>
+          <p className="text-lg">{book.pages}</p>
+          <p className="text-lg">{book.genre}</p>
         </div>
       )
     }
